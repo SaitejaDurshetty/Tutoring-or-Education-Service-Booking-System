@@ -1,0 +1,73 @@
+CREATE TABLE User (
+    U_ID INT PRIMARY KEY,
+    email VARCHAR(255),
+    phone VARCHAR(20),
+    name VARCHAR(255)
+);
+
+CREATE TABLE Notification (
+    N_ID INT PRIMARY KEY,
+    message TEXT,
+    U_ID INT,
+    FOREIGN KEY (U_ID) REFERENCES User(U_ID)
+);
+
+CREATE TABLE Services (
+    S_ID INT PRIMARY KEY,
+    name VARCHAR(255),
+    price DECIMAL(10, 2),
+    description TEXT,
+    L_ID INT,
+    FOREIGN KEY (L_ID) REFERENCES Location(L_ID)
+);
+
+CREATE TABLE Bookings (
+    B_ID INT PRIMARY KEY,
+    U_ID INT,
+    FOREIGN KEY (U_ID) REFERENCES User(U_ID)
+);
+
+CREATE TABLE Reviews (
+    R_ID INT PRIMARY KEY,
+    comment TEXT,
+    rating INT,
+    U_ID INT,
+    S_ID INT,
+    FOREIGN KEY (U_ID) REFERENCES User(U_ID),
+    FOREIGN KEY (S_ID) REFERENCES Services(S_ID)
+);
+
+CREATE TABLE Payment (
+    P_ID INT PRIMARY KEY,
+    method VARCHAR(50),
+    amount DECIMAL(10, 2),
+    date DATE,
+    B_ID INT,
+    FOREIGN KEY (B_ID) REFERENCES Bookings(B_ID)
+);
+
+CREATE TABLE Invoices (
+    I_ID INT PRIMARY KEY,
+    amount DECIMAL(10, 2),
+    date DATE,
+    U_ID INT,
+    B_ID INT,
+    FOREIGN KEY (U_ID) REFERENCES User(U_ID),
+    FOREIGN KEY (B_ID) REFERENCES Bookings(B_ID)
+);
+
+CREATE TABLE Location (
+    L_ID INT PRIMARY KEY,
+    name VARCHAR(255),
+    city VARCHAR(255),
+    country VARCHAR(255),
+    address TEXT
+);
+
+CREATE TABLE Cancellation (
+    C_ID INT PRIMARY KEY,
+    Refund_Amount DECIMAL(10, 2),
+    date DATE,
+    B_ID INT,
+    FOREIGN KEY (B_ID) REFERENCES Bookings(B_ID)
+);
